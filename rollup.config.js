@@ -37,14 +37,20 @@ function serve() {
 	};
 }
 
-export default [
-	{
-		input: 'src/main.ts',
+function sveltePageConfig(
+	input,
+	output,
+	styleOutput,
+	doServe = true,
+	doLiveReload = true
+) {
+	return {
+		input,
 		output: {
 			sourcemap: true,
 			format: 'iife',
 			name: 'app',
-			file: 'public/build/bundle.js',
+			file: output,
 		},
 		plugins: [
 			svelte({
@@ -56,7 +62,7 @@ export default [
 			}),
 			// we'll extract any component CSS out into
 			// a separate file - better for performance
-			css({ output: 'bundle.css' }),
+			css({ output: styleOutput }),
 
 			// If you have external dependencies installed from
 			// npm, you'll most likely need these plugins. In
@@ -75,11 +81,11 @@ export default [
 
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated
-			!production && serve(),
+			doServe && !production && serve(),
 
 			// Watch the `public` directory and refresh the
 			// browser on changes when not in production
-			!production && livereload('public'),
+			doLiveReload && !production && livereload('public'),
 
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
@@ -88,18 +94,37 @@ export default [
 		watch: {
 			clearScreen: false,
 		},
-	},
-	{
-		input: 'src/bootstrap/bootstrap.js',
+	};
+}
+
+function scssConfig(input, output, includePaths = [], format = 'esm') {
+	return {
+		input,
 		output: {
-			file: 'public/build/style.js',
-			format: 'esm',
+			file: output,
+			format,
 		},
 		plugins: [
 			scss({
 				processor: () => postcss([autoprefixer()]),
-				includePaths: ['node_modules/'],
+				includePaths: ['node_modules/', ...includePaths],
 			}),
 		],
-	},
+	};
+}
+
+export default [
+	sveltePageConfig(
+		'src/app.build.ts',
+		'public/build/bundle.js',
+		'bundle.css'
+	),
+	sveltePageConfig(
+		'src/404.build.ts',
+		'public/build/404.bundle.js',
+		'404.bundle.css',
+		false,
+		false
+	),
+	scssConfig('src/bootstrap/bootstrap.js', 'public/build/style.js'),
 ];

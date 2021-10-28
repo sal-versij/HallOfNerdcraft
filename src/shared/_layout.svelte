@@ -2,6 +2,10 @@
 	import Header from './Header.svelte';
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="/build/style.css" />
+</svelte:head>
+
 <section id="content">
 	<Header />
 	<main><slot /></main>

@@ -22,9 +22,6 @@
 	let promise = loadCitations();
 </script>
 
-<svelte:head>
-	<link rel="stylesheet" href="/build/style.css" />
-</svelte:head>
 <Layout>
 	<div class="container text-white">
 		<div class="row">
