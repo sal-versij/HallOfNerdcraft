@@ -91,7 +91,12 @@
 		<ul class="nav flex-column">
 			{#if user}
 				<li class="nav-item">
-					<a href="#!" class="btn btn-outline-light border-0 w-100 text-start"> Prova </a>
+					<a
+						href="/console"
+						class="btn btn-outline-light border-0 w-100 text-start"
+					>
+						Console
+					</a>
 				</li>
 				<li class="nav-item">
 					<button
@@ -117,6 +122,3 @@
 		</ul>
 	</div>
 </div>
-
-<style lang="scss">
-</style>

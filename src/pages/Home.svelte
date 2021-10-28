@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Layout from '../shared/_layout.svelte';
+	import CitationEntry from './CitationEntry.svelte';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { ref, set, child, get, getDatabase } from 'firebase/database';
-
-	//export let database;
+	import { ref, child, get, getDatabase } from 'firebase/database';
 
 	const dbRef = ref(getDatabase());
 
@@ -16,19 +15,6 @@
 				throw new Error('No data found');
 			}
 		});
-	}
-
-	function formatTimestamp(timestamp) {
-		var a = new Date(timestamp);
-		return `${a.toLocaleDateString('it-IT', {
-			weekday: 'long',
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-		})} ${a.toLocaleTimeString('it-IT', {
-			hour: '2-digit',
-			minute: '2-digit',
-		})}`;
 	}
 
 	let promise = loadCitations();
@@ -48,34 +34,10 @@
 						/>
 						<strong>Loading...</strong>
 					</div>
-				{:then citations}
-					{#each citations as { timestamp, image, quote, cit, location }, i (i)}
-						<div class="card bg-dark mb-3" animate:flip in:fade>
-							<div class="card-body d-flex">
-								<div class="flex-shrink-0">
-									{#if image}
-										<img src={image} alt="citation" />
-									{/if}
-								</div>
-								<div class="flex-grow-1 ms-3">
-									<figure>
-										<blockquote class="blockquote">
-											<p>
-												{quote}
-											</p>
-										</blockquote>
-										{#if cit}
-											<figcaption
-												class="blockquote-footer"
-											>
-												<cite title={cit}>{cit}</cite>
-												{formatTimestamp(timestamp)}
-												{location}
-											</figcaption>
-										{/if}
-									</figure>
-								</div>
-							</div>
+				{:then repository}
+					{#each repository as citation, id (id)}
+						<div animate:flip in:fade>
+							<CitationEntry {citation} />
 						</div>
 					{/each}
 				{:catch error}
@@ -85,14 +47,3 @@
 		</div>
 	</div>
 </Layout>
-
-<style lang="scss">
-	figure {
-		border-left: 4px solid white;
-		padding-left: 8px;
-		margin: 0;
-		figcaption {
-			margin-bottom: 0;
-		}
-	}
-</style>
