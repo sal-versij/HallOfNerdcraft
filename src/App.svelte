@@ -4,7 +4,7 @@
 	import { flip } from 'svelte/animate';
 
 	function loadCitations() {
-		return fetch('/citations.json').then(Response => Response.json());
+		return fetch('citations.json').then(Response => Response.json());
 	}
 	function formatTimestamp(timestamp) {
 		var a = new Date(timestamp);
