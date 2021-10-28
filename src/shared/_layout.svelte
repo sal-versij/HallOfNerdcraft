@@ -3,7 +3,8 @@
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="/build/style.css" />
+	<link rel="stylesheet" href="/build/bootstrap.css" />
+	<link rel="stylesheet" href="/build/bootstrap.js" />
 </svelte:head>
 
 <section id="content">

@@ -9,6 +9,7 @@ import css from 'rollup-plugin-css-only';
 import scss from 'rollup-plugin-scss';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -53,6 +54,7 @@ function sveltePageConfig(
 			file: output,
 		},
 		plugins: [
+			replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
 			svelte({
 				preprocess: sveltePreprocess({ sourceMap: !production }),
 				compilerOptions: {
@@ -119,5 +121,5 @@ export default [
 		'public/build/bundle.js',
 		'bundle.css'
 	),
-	scssConfig('src/bootstrap/bootstrap.js', 'public/build/style.js'),
+	scssConfig('src/bootstrap/bootstrap.js', 'public/build/bootstrap.js'),
 ];

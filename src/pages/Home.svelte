@@ -2,10 +2,22 @@
 	import Layout from '../shared/_layout.svelte';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { ref, set, child, get, getDatabase } from 'firebase/database';
+
+	//export let database;
+
+	const dbRef = ref(getDatabase());
 
 	function loadCitations() {
-		return fetch('citations.json').then(Response => Response.json());
+		return get(child(dbRef, `citations/`)).then(snapshot => {
+			if (snapshot.exists()) {
+				return snapshot.val();
+			} else {
+				throw new Error('No data found');
+			}
+		});
 	}
+
 	function formatTimestamp(timestamp) {
 		var a = new Date(timestamp);
 		return `${a.toLocaleDateString('it-IT', {
@@ -36,8 +48,8 @@
 						/>
 						<strong>Loading...</strong>
 					</div>
-				{:then repository}
-					{#each repository.citations as { timestamp, image, quote, cit, location }, i (i)}
+				{:then citations}
+					{#each citations as { timestamp, image, quote, cit, location }, i (i)}
 						<div class="card bg-dark mb-3" animate:flip in:fade>
 							<div class="card-body d-flex">
 								<div class="flex-shrink-0">
@@ -62,7 +74,6 @@
 											</figcaption>
 										{/if}
 									</figure>
-									<blockquote />
 								</div>
 							</div>
 						</div>
@@ -76,4 +87,12 @@
 </Layout>
 
 <style lang="scss">
+	figure {
+		border-left: 4px solid white;
+		padding-left: 8px;
+		margin: 0;
+		figcaption {
+			margin-bottom: 0;
+		}
+	}
 </style>
