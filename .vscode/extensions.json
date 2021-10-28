@@ -1,3 +1,8 @@
 {
-  "recommendations": ["svelte.svelte-vscode"]
+  "recommendations": [
+    "svelte.svelte-vscode",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "vincaslt.highlight-matching-tag"
+  ]
 }
