@@ -6,7 +6,8 @@
 		"deploy": "rollup -c && firebase deploy --only hosting",
 		"build": "rollup -c",
 		"dev": "rollup -c -w",
-		"start": "sirv public --no-clear",
+		"start": "sirv public --single",
+		"start:dev": "sirv public --dev --single",
 		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"devDependencies": {
@@ -34,6 +35,7 @@
 		"node-sass": "^6.0.1",
 		"postcss": "^8.3.11",
 		"rollup-plugin-scss": "^3.0.0",
-		"sirv-cli": "^1.0.0"
+		"sirv-cli": "^1.0.0",
+		"svelte-routing": "^1.6.0"
 	}
 }

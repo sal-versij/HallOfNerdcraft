@@ -119,12 +119,5 @@ export default [
 		'public/build/bundle.js',
 		'bundle.css'
 	),
-	sveltePageConfig(
-		'src/404.build.ts',
-		'public/build/404.bundle.js',
-		'404.bundle.css',
-		false,
-		false
-	),
 	scssConfig('src/bootstrap/bootstrap.js', 'public/build/style.js'),
 ];
